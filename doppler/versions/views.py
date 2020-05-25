@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
-# Create your views here.
+from models import Versions
+from serializers import VersionsSerializer
+
+class VersionsViewSet(viewsets.ModelViewSet):
+    queryset = Versions.objects.all()
+    serializer_class = VersionsSerializer

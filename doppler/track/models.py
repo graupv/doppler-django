@@ -4,9 +4,9 @@ class Track(models.Model):
     track_id = models.CharField(primary_key=True, max_length=32)
     name = models.CharField(verbose_name="track_name", blank=False)
     key = models.CharField(verbose_name="track_key", null=True, editable=True)
-    lyrics = models.CharField(verbose_name='track_lyrics', )
-    authors = models.CharField(verbose_name='authors')
-    last_modify = models.DateTimeField()
+    lyrics = models.CharField(verbose_name='track_lyrics', null=True)
+    authors = models.CharField(verbose_name='track_authors', null=False)
+    modify_date = models.DateTimeField()
     version = models.PositiveIntegerField()
     private = models.BooleanField(default=True)
 
