@@ -44,6 +44,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'guardian',
     'corsheaders',
+    
+    'track.apps.TrackConfig',
+    'phrasebox.apps.PhraseboxConfig',
+    'chordbox.apps.ChordboxConfig',
+    'versions.apps.VersionsConfig',
+    
 ]
 
 MIDDLEWARE = [
