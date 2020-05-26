@@ -16,4 +16,4 @@ class Track(models.Model):
     #     ]   
 
     def __str__(self):
-        return f'Track Name: {self.name}/nTrack Author: {self.authors}/nTrack Version: {self.version}/nPrivate: {"Yes/n" if self.private else "no/n"}'
+        return f'Track Name: {self.name} Track Author: {self.authors} Track Version: {self.version} Private: {"Yes" if self.private else "no"}'
