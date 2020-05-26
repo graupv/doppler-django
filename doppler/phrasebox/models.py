@@ -1,5 +1,7 @@
 from django.db import models
 
-class phrasebox(models.Model):
+from django.contrib.auth.models import User
+
+class Phrasebox(models.Model):
     phrases = models.CharField()
-    # user = passs
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
