@@ -23,10 +23,11 @@ from rest_framework_jwt.views import (
 )
 
 from track.views import TrackViewSet
-from versions.views import VersionsViewSet
+# from versions.views import VersionsViewSet
 
 router = routers.DefaultRouter()
 router.register(r'tracks', TrackViewSet)
+# router.register(r'version', TrackViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

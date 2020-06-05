@@ -19,6 +19,7 @@ class TrackViewSet(viewsets.ModelViewSet):
                 'base': {
                     'create': lambda user, req: user.is_authenticated,
                     'list': lambda user, req: user.is_authenticated,
+                    'misTracks': lambda user, req: user.is_authenticated,
                 },
                 'instance': {
                     'retrieve': evaluar_user,
@@ -27,10 +28,9 @@ class TrackViewSet(viewsets.ModelViewSet):
                     'partial_update': evaluar_user,
                     'create': evaluar_user,
                     'lyrics': evaluar_user,
-                    'tracks': evaluar_user,
                 }
             }
-        )
+        ),
     )
 
     def create(self, serializer):
@@ -51,9 +51,12 @@ class TrackViewSet(viewsets.ModelViewSet):
         paroles = track.lyrics
         return Response({'status': 'ok lyrics'})
 
-    @action(detail=False, url_path='tracks', methods=['get'])
-    def tracks(self, request, pk=None):
+    @action(detail=False, url_path='mistracks', methods=['get'])
+    def misTracks(self, request, pk=None):
+        print(type(request), request)
         usn = self.request.user
-        tracks = Track.objects.get(username=usn.username)
+        print(usn)
+        the_tracks = Track.objects.get(username=usn.username)
+        print(the_tracks)
         print(f'Got {Track.objects.filter(username=usn.username).count()} tracks')
-        return Response(tracks)
+        return Response(TrackSerializer(the_tracks).data)
