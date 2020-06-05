@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from models import Track
+from track.models import Track
 
 class TrackSerializer(serializers.ModelSerializer):
 
@@ -11,8 +11,8 @@ class TrackSerializer(serializers.ModelSerializer):
             'track_name',
             'track_key',
             'track_lyrics',
-            'track_authors',
-            'last_modify_date',
+            'username',
+            'modify_date',
             'version',
             'private'
 

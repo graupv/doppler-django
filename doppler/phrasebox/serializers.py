@@ -2,6 +2,12 @@ from rest_framework import serializers
 
 from models import phrasebox
 
-class VersionsSerializer(serializers.ModelSerializer):
+class PhraseboxSerializer(serializers.ModelSerializer):
 
     class Meta:
+        model = phrasebox
+        field = (
+            'phrases',
+            'words',
+            'username',
+        )
