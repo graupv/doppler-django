@@ -4,32 +4,42 @@
 
     Token
         - Get token
-        api/v1/token-auth/
+        POST: api/v1/token-auth/
         BODY: {username, password}
 
         - Refresh
-        api/v1/token-refresh
+        POST: api/v1/token-refresh
         BODY: {token: old_valid_token}
         
 
     Tracks
+        Header: {Authorization: JWT ${TOKEN}}
+        
         - Create 
-        POST, api/v1/tracks
-        Body {id, name, username, lyrics, key, version, modify_date}
+        POST: api/v1/tracks
+        Body {
+            id=1, name='string', username, 
+            lyrics, key, version=1, 
+            modify_date='2020-01-01'
+            }
 
         - User Tracks
-        GET, api/v1/tracks/mytracks
+        GET: api/v1/tracks/mytracks
 
         - Single Track
-        GET, api/v1/tracks/id
+        GET: api/v1/tracks/id
 
         - Single track lyrics
-        GET, api/v1/tracks/id/lyrics
+        GET: api/v1/tracks/id/lyrics
 
     Accounts
         - Create
-        POST, /api/v1/account
-        BODY : {username, password, email}
+        POST: /api/v1/account
+            BODY: {username, password, email}
+
+        - Get user or user list (only super user)
+        GET: api/v1/account or api/v1/account/id
+
 
 
 
