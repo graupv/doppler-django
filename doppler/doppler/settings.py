@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'guardian',
     'corsheaders',
     
+    'account.apps.AccountConfig',
     'track.apps.TrackConfig',
     'phrasebox.apps.PhraseboxConfig',
     'chordbox.apps.ChordboxConfig',

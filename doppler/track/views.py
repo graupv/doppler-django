@@ -7,6 +7,8 @@ from track.serializers import TrackSerializer
 
 def evaluar_user(user, obj, request):
     #   user making request === track owner
+    print('eval\n')
+    print(user, obj, request)
     return user.username == obj.username
 
 class TrackViewSet(viewsets.ModelViewSet):
@@ -18,7 +20,7 @@ class TrackViewSet(viewsets.ModelViewSet):
             permission_configuration={
                 'base': {
                     'create': lambda user, req: user.is_authenticated,
-                    'list': lambda user, req: user.is_authenticated,
+                    # 'list': lambda user, req: user.is_authenticated,
                     'misTracks': lambda user, req: user.is_authenticated,
                 },
                 'instance': {
@@ -26,7 +28,7 @@ class TrackViewSet(viewsets.ModelViewSet):
                     'destroy': evaluar_user,
                     'update': evaluar_user,
                     'partial_update': evaluar_user,
-                    'create': evaluar_user,
+                    # 'create': evaluar_user,
                     'lyrics': evaluar_user,
                 }
             }
@@ -40,16 +42,20 @@ class TrackViewSet(viewsets.ModelViewSet):
             raise PermissionDenied('Unauthenticated')
         else:
             track = serializer.save()
-            #   asociar bebe con usuario y sus permisos
+            #   asociar track con usuario y sus permisos
             assign_perm('track.change_track', user, track)
             assign_perm('track.view_track', user, track)
             return Response(serializer.data)
 
     @action(detail=True, url_path='lyrics', methods=['get'])
     def lyrics(self, request, pk=None):
-        track = self.get_object()
-        paroles = track.lyrics
-        return Response({'status': 'ok lyrics'})
+        usn = self.request.user
+        if Track.objects.filter(track_id=pk, username=usn.username).count() == 0:
+            return Response({'Status': 'Unauthorized'})
+        else:
+            track = Track.objects.get(track_id=pk)
+            paroles = track.lyrics
+            return Response({'Lyrics': paroles})
 
     @action(detail=False, url_path='mistracks', methods=['get'])
     def misTracks(self, request, pk=None):

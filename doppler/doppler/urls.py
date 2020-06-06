@@ -23,10 +23,12 @@ from rest_framework_jwt.views import (
 )
 
 from track.views import TrackViewSet
+from account.views import CreateUserView
 # from versions.views import VersionsViewSet
 
 router = routers.DefaultRouter()
 router.register(r'tracks', TrackViewSet)
+router.register(r'account', CreateUserView)
 # router.register(r'version', TrackViewSet)
 
 urlpatterns = [

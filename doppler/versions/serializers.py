@@ -7,11 +7,11 @@ class VersionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Versions
         fields = (
-            'version',
             'track_id',
-            'track_name',
-            'track_key',
-            'track_lyrics',
+            'name',
+            'key',
+            'lyrics',
+            'version',
             'modify_date',
             
         )
