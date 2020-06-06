@@ -17,7 +17,9 @@ class CreateUserView(viewsets.ModelViewSet):
             permission_configuration={
                 'base': {
                     'create': permissions.AllowAny,
+                    #   anyone can sign up
                     # 'list': lambda user, req: user.is_authenticated,
+                    #   list -> user.is_admin o algo despues
                     
                 },
                 'instance': {
