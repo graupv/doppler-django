@@ -4,11 +4,13 @@ from rest_framework.response import Response
 from permissions.services import APIPermissionClassFactory
 from track.models import Track
 from track.serializers import TrackSerializer
+from guardian.shortcuts import assign_perm
+from django.core.exceptions import PermissionDenied
 
 def evaluar_user(user, obj, request):
     #   user making request === track owner
-    print('eval\n')
-    print(user, obj, request)
+    # print('eval\n')
+    # print(user, obj, request)
     return user.username == obj.username
 
 class TrackViewSet(viewsets.ModelViewSet):
@@ -21,7 +23,7 @@ class TrackViewSet(viewsets.ModelViewSet):
                 'base': {
                     'create': lambda user, req: user.is_authenticated,
                     # 'list': lambda user, req: user.is_authenticated,
-                    'misTracks': lambda user, req: user.is_authenticated,
+                    'mistracks': lambda user, req: user.is_authenticated,
                 },
                 'instance': {
                     'retrieve': evaluar_user,
@@ -35,7 +37,7 @@ class TrackViewSet(viewsets.ModelViewSet):
         ),
     )
 
-    def create(self, serializer):
+    def perform_create(self, serializer):
         #   get user making request and check auth.
         user = self.request.user
         if not user.is_authenticated:
@@ -52,17 +54,16 @@ class TrackViewSet(viewsets.ModelViewSet):
         usn = self.request.user
         if Track.objects.filter(track_id=pk, username=usn.username).count() == 0:
             return Response({'Status': 'Unauthorized'})
+
         else:
             track = Track.objects.get(track_id=pk)
             paroles = track.lyrics
             return Response({'Lyrics': paroles})
 
-    @action(detail=False, url_path='mistracks', methods=['get'])
-    def misTracks(self, request, pk=None):
-        print(type(request), request)
+    @action(detail=False, url_path='mytracks', methods=['get'])
+    def mistracks(self, request, pk=None):
+        # print(type(request), request)
         usn = self.request.user
-        print(usn)
-        the_tracks = Track.objects.get(username=usn.username)
-        print(the_tracks)
-        print(f'Got {Track.objects.filter(username=usn.username).count()} tracks')
-        return Response(TrackSerializer(the_tracks).data)
+        # print(usn)
+        the_tracks = Track.objects.filter(username=usn.username)
+        return Response(TrackSerializer(the_tracks, many=True).data)
