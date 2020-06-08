@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 
 class Track(models.Model):
-    track_id = models.CharField(primary_key=True, max_length=32)
+    track_id = models.CharField(primary_key=True, max_length=40)
     name = models.CharField(verbose_name="track_name", blank=False, max_length=200)
     key = models.CharField(verbose_name="track_key", null=True, editable=True, max_length=2)
     lyrics = models.CharField(verbose_name='track_lyrics', null=True, max_length=6000)
