@@ -34,7 +34,7 @@
 
     Accounts
         - Create
-        POST: /api/v1/account
+        POST: /api/v1/account/create/
             BODY: {username, password, email}
 
         - Get user or user list (only super user)

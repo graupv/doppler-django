@@ -15,8 +15,8 @@ def evaluar_user(user, obj, request):
     return user.username == obj.username
 
 class PhraseboxSet(viewsets.ModelViewSet):
-    queryset = Track.objects.all()
-    serializer_class = TrackSerializer
+    queryset = Phrasebox.objects.all()
+    serializer_class = PhraseboxSerializer
     permission_classes = (
         APIPermissionClassFactory(
             name='TrackPermission',
@@ -55,4 +55,4 @@ class PhraseboxSet(viewsets.ModelViewSet):
         usn = self.request.user
         # print(usn)
         the_words = Phrasebox.objects.filter(username=usn.username)
-        return Response(TrackSerializer(the_tracks, many=True).data)
+        return Response(PhraseboxSerializer(the_words, many=True).data)

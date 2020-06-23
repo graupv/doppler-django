@@ -38,19 +38,21 @@ class CreateUserView(viewsets.ModelViewSet):
     #     ),
     # )
     
-    # @parser_classes([JSONParser])
+
     @action(detail=False, url_path='create', methods=['POST'], permission_classes=[permissions.AllowAny])
     def create_user(self, request):
 
         data = self.request.data
         #   get querydict object with Body data
-        user = data.get('username')
+        username = data.get('username')
         pw = data.get("password")
         email = data.get('email')
 
         #   Wrap in try and return errors
         try:
-            User.objects.create_user(user, email, pw)
+            user = User.objects.create(username=username, email=email)
+            user.set_password(pw)
+            user.save()
             print('User created')
             return Response(status=status.HTTP_201_CREATED)
         except Exception as e:
@@ -69,4 +71,6 @@ class CreateUserView(viewsets.ModelViewSet):
             #   user cannot change a different user's details
             #   or simply wrong url
             return Response(status=status.HTTP_403_FORBIDDEN)
-        return Response({'Status': 'Modified something'}, status=status.HTTP_200_OK)
+        else:
+            
+            return Response({'Status': 'Modified something'}, status=status.HTTP_200_OK)
