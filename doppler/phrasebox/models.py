@@ -5,8 +5,9 @@ from django.db import models
 
 class Phrasebox(models.Model):
     # phrases = models.CharField(max_length=5000)
+    # id = models.AutoField(primary_key=True)
     phrases = ArrayField(
-        models.CharField(max_length=200, blank=True),
+        models.CharField(max_length=200, blank=True, null=True),
 
     )
     # words = models.CharField(max_length=5000)
@@ -14,6 +15,11 @@ class Phrasebox(models.Model):
     #     models.CharField(max_length=200, blank=True),
         
     # )
-    username = models.CharField(max_length=100, primary_key=True)
+    username = models.CharField(max_length=100)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['id', 'username'], name='unique_pb_id_user')
+        ]
 
     

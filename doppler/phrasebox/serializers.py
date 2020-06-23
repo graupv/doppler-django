@@ -7,7 +7,7 @@ class PhraseboxSerializer(serializers.ModelSerializer):
     class Meta:
         model = phrasebox
         field = (
-            'phrases',
-            'words',
+            'id',
             'username',
+            'phrases',
         )
